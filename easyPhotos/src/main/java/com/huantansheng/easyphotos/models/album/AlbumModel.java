@@ -21,6 +21,7 @@ import com.huantansheng.easyphotos.models.album.entity.Photo;
 import com.huantansheng.easyphotos.result.Result;
 import com.huantansheng.easyphotos.setting.Setting;
 import com.huantansheng.easyphotos.utils.String.StringUtils;
+import com.huantansheng.easyphotos.utils.permission.PermissionUtil;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -64,11 +65,6 @@ public class AlbumModel {
 
     public void query(Context context, final CallBack callBack) {
         final Context appCxt = context.getApplicationContext();
-        if (PermissionChecker.checkSelfPermission(context,
-                Manifest.permission.READ_EXTERNAL_STORAGE) != PermissionChecker.PERMISSION_GRANTED) {
-            if (null != callBack) callBack.onAlbumWorkedCallBack();
-            return;
-        }
         canRun = true;
         new Thread(new Runnable() {
             @Override
