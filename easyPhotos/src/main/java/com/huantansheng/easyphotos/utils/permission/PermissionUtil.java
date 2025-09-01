@@ -1,7 +1,9 @@
 package com.huantansheng.easyphotos.utils.permission;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.pm.PackageManager;
+import android.os.Build;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
@@ -57,6 +59,18 @@ public class PermissionUtil {
                                           PermissionCallBack listener) {
         int length = grantResults.length;
         List<Integer> positions = new ArrayList<>();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+            //andorid14，部分授权的时候也是失败，这时候也尝试扫描图片
+            if (length == 2) {
+                if (permissions[0].equals(Manifest.permission.READ_MEDIA_IMAGES) && permissions[1].equals(Manifest.permission.READ_MEDIA_VIDEO)) {
+                    listener.onSuccess();
+                    return;
+                } else if (permissions[1].equals(Manifest.permission.READ_MEDIA_IMAGES) && permissions[0].equals(Manifest.permission.READ_MEDIA_VIDEO)) {
+                    listener.onSuccess();
+                    return;
+                }
+            }
+        }
         if (length > 0) {
             for (int i = 0; i < length; i++) {
                 if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {

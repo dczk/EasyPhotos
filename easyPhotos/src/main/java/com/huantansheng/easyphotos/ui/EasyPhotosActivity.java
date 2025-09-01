@@ -288,6 +288,7 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
                                         getPackageName());
                             }
                         });
+                        initAlbumItems();
 
                     }
                 });

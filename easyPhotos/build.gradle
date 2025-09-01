@@ -1,23 +1,36 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdk 34
-
+    compileSdk 35
+    namespace "com.huantansheng.easyphotos"
     defaultConfig {
-        minSdkVersion 15
-        targetSdkVersion 34
-        versionCode 1
-        versionName "1.0"
+        minSdkVersion 21
+        targetSdkVersion 35
+        versionCode 3
+        versionName "1.4"
         vectorDrawables.useSupportLibrary = true
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        libraryVariants.all { variant ->
+            variant.outputs.all {
+                if(variant.buildType.name.equals('release')){
+                    outputFileName = "EasyPhotoForKD_V${defaultConfig.versionName}.aar"
+                }
+            }
+        }
     }
 }
 
 dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
-    implementation 'androidx.appcompat:appcompat:1.2.0'
-    implementation 'com.google.android.material:material:1.1.0'
-    implementation 'androidx.recyclerview:recyclerview:1.1.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.2.1'
+    implementation 'androidx.appcompat:appcompat:1.7.1'
+    implementation 'com.google.android.material:material:1.12.0'
+    implementation 'androidx.recyclerview:recyclerview:1.4.0'
     implementation 'com.davemorrissey.labs:subsampling-scale-image-view-androidx:3.10.0'
     implementation 'com.github.chrisbanes:PhotoView:2.3.0'
 }
@@ -27,11 +40,7 @@ dependencies {
 //    options.encoding = "UTF-8"
 //}
 
-// 打包源码
-task sourcesJar(type: Jar) {
-    from android.sourceSets.main.java.srcDirs
-    classifier = 'sources'
-}
+
 
 //制作文档
 //task javadoc(type: Javadoc) {
@@ -47,7 +56,7 @@ task sourcesJar(type: Jar) {
 //    from javadoc.destinationDir
 //}
 
-artifacts {
-    archives sourcesJar
-//    archives javadocJar
-}
+//artifacts {
+//    archives sourcesJar
+////    archives javadocJar
+//}
